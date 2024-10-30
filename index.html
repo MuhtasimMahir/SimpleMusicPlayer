@@ -1,0 +1,97 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="stylesheet" href="style.css">  
+    <script src="https://kit.fontawesome.com/023fe9b9fe.js" crossorigin="anonymous"></script>  
+    <title>Musicz</title>  
+</head>  
+<body>  
+    <div class="container">  
+        <div class="music-player">  
+            <nav>  
+                <div class="circle">  
+                    <i class="fa-solid fa-angle-left"></i>  
+                </div>  
+                <div class="circle">  
+                    <i class="fa-solid fa-bars"></i>  
+                </div>  
+            </nav>  
+            <img src="468-thumbnail.png" class="song-img" alt="Song Thumbnail">  
+            <h1>Despacito</h1>  
+            <p>Luis Fonsi Ft. Daddy Yankee</p>  
+            <audio id="song">  
+                <source src="Luis Fonsi - Despacito ft. Daddy Yankee.ogg" type="audio/ogg">  
+                Your browser does not support the audio tag.  
+            </audio>  
+            <input type="range" value="0" id="progress" min="0">  
+            <div class="controls">  
+                <div><i class="fa-solid fa-backward"></i></div>  
+                <div onclick="playPause()"><i class="fa-solid fa-play" id="ctrlIcon"></i></div>              
+                <div><i class="fa-solid fa-forward"></i></div>      
+            </div>  
+            <input type="range" id="volume" value="50" min="0" max="100" id="progress">  
+            <label for="volume" >Volume</label>  
+        </div>  
+    </div>  
+
+    <script>  
+        const progress = document.getElementById("progress");  
+        const song = document.getElementById("song");  
+        const ctrlIcon = document.getElementById("ctrlIcon");  
+        const volumeSlider = document.getElementById("volume");  
+
+        // Set initial volume  
+        song.volume = volumeSlider.value / 100; 
+        song. 
+
+        // When the audio metadata is loaded  
+        song.onloadedmetadata = function() {  
+            progress.max = song.duration;  
+            progress.value = song.currentTime;  
+        }  
+
+        // Play/Pause functionality  
+        function playPause() {  
+            if (song.paused) {  
+                song.play();  
+                ctrlIcon.classList.add("fa-pause");  
+                ctrlIcon.classList.remove("fa-play");  
+            } else {  
+                song.pause();  
+                ctrlIcon.classList.remove("fa-pause");  
+                ctrlIcon.classList.add("fa-play");  
+            }  
+        }  
+
+        // Update progress bar while playing  
+        song.ontimeupdate = function() {  
+            progress.value = song.currentTime;  
+        }  
+
+        // Seek functionality  
+        progress.oninput = function() {  
+            song.currentTime = progress.value;  
+            if (song.paused) {  
+                song.play();  
+                ctrlIcon.classList.add("fa-pause");  
+                ctrlIcon.classList.remove("fa-play");  
+            }  
+        }  
+
+        // Reset progress bar when the song ends  
+        song.onended = function() {  
+            ctrlIcon.classList.remove("fa-pause");  
+            ctrlIcon.classList.add("fa-play");  
+            progress.value = 0; // Reset progress bar  
+        }  
+
+        // Volume Control  
+        volumeSlider.oninput = function() {  
+            song.volume = volumeSlider.value / 100;  
+        }  
+    </script>  
+    
+</body>  
+</html>
